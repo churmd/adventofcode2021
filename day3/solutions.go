@@ -39,6 +39,81 @@ func Solution1() {
 	fmt.Printf("%d\n", gammaInt * epsilonInt)
 }
 
+func Solution2() {
+	lines := getLines()
+
+	oxygen := oxygenGenRating(lines)
+	co2 := co2ScrubberRating(lines)
+
+	oxygenInt, _ := strconv.ParseInt(string(oxygen), 2, 64)
+	co2Int, _ := strconv.ParseInt(string(co2), 2, 64)
+
+	fmt.Println("What is the life support rating of the submarine?")
+	fmt.Printf("Oxygen: %s %d  CO2: %s %d\n", string(oxygen), oxygenInt, string(co2),  co2Int)
+	fmt.Printf("%d\n", oxygenInt * co2Int)
+}
+
+func oxygenGenRating(lines []line) line {
+	return filterLines(lines, 0, mostCommonValueAt)
+}
+
+func co2ScrubberRating(lines []line) line {
+	return filterLines(lines, 0, leastCommonValueAt)
+}
+
+func filterLines(lines []line, index int, getFilterValue func(lines []line, index int) rune) line {
+	filteredLines := []line{}
+	filterValue := getFilterValue(lines, index)
+
+	for _, l := range lines {
+		if l[index] == filterValue {
+			filteredLines = append(filteredLines, l)
+		}
+	}
+
+	if len(filteredLines) == 1 {
+		return filteredLines[0]
+	} else {
+		return filterLines(filteredLines, index + 1, getFilterValue)
+	}
+}
+
+func mostCommonValueAt(lines []line, index int) rune {
+	oneCount := 0
+	zeroCount := 0
+	for _, r := range lines {
+		if r[index] == '1' {
+			oneCount++
+		} else {
+			zeroCount++
+		}
+	}
+
+	if oneCount >= zeroCount {
+		return '1'
+	} else {
+		return '0'
+	}
+}
+
+func leastCommonValueAt(lines []line, index int) rune {
+	oneCount := 0
+	zeroCount := 0
+	for _, r := range lines {
+		if r[index] == '1' {
+			oneCount++
+		} else {
+			zeroCount++
+		}
+	}
+
+	if oneCount < zeroCount {
+		return '1'
+	} else {
+		return '0'
+	}
+}
+
 func numOfOnes(lines []line) []int {
 	counts := make([]int, len(lines[0]))
 
