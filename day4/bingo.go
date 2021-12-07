@@ -10,10 +10,6 @@ type Board struct {
 func NewBoard(input string) Board {
 	cells := [5][5]string{}
 	marked := [5][5]bool{}
-	// for i := range cells {
-	// 	cells[i] = make([]string, 5)
-	// 	marked[i] = make([]bool, 5)
-	// }
 
 	lines := strings.Split(input, "\n")
 
