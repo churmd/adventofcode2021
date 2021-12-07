@@ -15,7 +15,7 @@ func Solution1() {
 
 	gamma := make(line, len(lines[0]))
 	for i, countOfOnes := range occurancesOfOne {
-		if countOfOnes > totalNums / 2 {
+		if countOfOnes > totalNums/2 {
 			gamma[i] = '1'
 		} else {
 			gamma[i] = '0'
@@ -24,7 +24,7 @@ func Solution1() {
 
 	epsilon := make(line, len(lines[0]))
 	for i, countOfOnes := range occurancesOfOne {
-		if countOfOnes > totalNums / 2 {
+		if countOfOnes > totalNums/2 {
 			epsilon[i] = '0'
 		} else {
 			epsilon[i] = '1'
@@ -36,7 +36,7 @@ func Solution1() {
 
 	fmt.Println("What is the power consumption of the submarine?")
 	fmt.Printf("Gamma: %d  Epsilon: %d\n", gammaInt, epsilonInt)
-	fmt.Printf("%d\n", gammaInt * epsilonInt)
+	fmt.Printf("%d\n", gammaInt*epsilonInt)
 }
 
 func Solution2() {
@@ -49,8 +49,8 @@ func Solution2() {
 	co2Int, _ := strconv.ParseInt(string(co2), 2, 64)
 
 	fmt.Println("What is the life support rating of the submarine?")
-	fmt.Printf("Oxygen: %s %d  CO2: %s %d\n", string(oxygen), oxygenInt, string(co2),  co2Int)
-	fmt.Printf("%d\n", oxygenInt * co2Int)
+	fmt.Printf("Oxygen: %s %d  CO2: %s %d\n", string(oxygen), oxygenInt, string(co2), co2Int)
+	fmt.Printf("%d\n", oxygenInt*co2Int)
 }
 
 func oxygenGenRating(lines []line) line {
@@ -74,7 +74,7 @@ func filterLines(lines []line, index int, getFilterValue func(lines []line, inde
 	if len(filteredLines) == 1 {
 		return filteredLines[0]
 	} else {
-		return filterLines(filteredLines, index + 1, getFilterValue)
+		return filterLines(filteredLines, index+1, getFilterValue)
 	}
 }
 
@@ -128,10 +128,10 @@ func numOfOnes(lines []line) []int {
 	return counts
 }
 
-func getLines() []line { 
+func getLines() []line {
 	newLines := strings.Split(input, "\n")
 
-	lines := make([]line, len(newLines))  
+	lines := make([]line, len(newLines))
 	for i, l := range newLines {
 		lines[i] = line(l)
 	}

@@ -9,37 +9,41 @@ import (
 
 const (
 	FORWARD Direction = "forward"
-	DOWN Direction = "down"
-	UP Direction = "up"
+	DOWN    Direction = "down"
+	UP      Direction = "up"
 )
 
 type Direction = string
 type Command struct {
-	Dir Direction
+	Dir    Direction
 	Amount int
 }
 
 func (com *Command) UnmarshalText(text []byte) error {
 	switch {
-	case strings.HasPrefix(string(text), FORWARD): com.Dir = FORWARD
-	case strings.HasPrefix(string(text), DOWN): com.Dir = DOWN
-	case strings.HasPrefix(string(text), UP): com.Dir = UP
-	default: return errors.New("command does not contain a valid direction")
+	case strings.HasPrefix(string(text), FORWARD):
+		com.Dir = FORWARD
+	case strings.HasPrefix(string(text), DOWN):
+		com.Dir = DOWN
+	case strings.HasPrefix(string(text), UP):
+		com.Dir = UP
+	default:
+		return errors.New("command does not contain a valid direction")
 	}
 
-	num := strings.Replace(string(text), com.Dir + " ", "", 1)
+	num := strings.Replace(string(text), com.Dir+" ", "", 1)
 	amount, err := strconv.Atoi(num)
 	if err != nil {
 		return err
 	}
 	com.Amount = amount
-	
+
 	return nil
 }
 
 type Position struct {
 	Horizontal int
-	Depth int
+	Depth      int
 }
 
 func (c Position) String() string {
@@ -48,9 +52,12 @@ func (c Position) String() string {
 
 func (c Position) Follow(com Command) Position {
 	switch com.Dir {
-	case FORWARD: return c.Add(Position{Horizontal: com.Amount})
-	case DOWN: return c.Add(Position{Depth: com.Amount})
-	case UP: return c.Add(Position{Depth: -com.Amount})
+	case FORWARD:
+		return c.Add(Position{Horizontal: com.Amount})
+	case DOWN:
+		return c.Add(Position{Depth: com.Amount})
+	case UP:
+		return c.Add(Position{Depth: -com.Amount})
 	}
 
 	panic("followed a command with an unknown direction: " + com.Dir)
@@ -63,19 +70,19 @@ func (c Position) Add(c2 Position) Position {
 func Solution1() {
 	commands := getCommands()
 
-	pos := Position{Horizontal:0, Depth:0}
+	pos := Position{Horizontal: 0, Depth: 0}
 	for _, command := range commands {
 		pos = pos.Follow(command)
 	}
 
 	fmt.Println("What do you get if you multiply your final horizontal position by your final depth?")
-	fmt.Printf("Final position is: %s  answer is: %d\n", pos, pos.Horizontal * pos.Depth)
+	fmt.Printf("Final position is: %s  answer is: %d\n", pos, pos.Horizontal*pos.Depth)
 }
 
 type Position2 struct {
 	Horizontal int
-	Depth int
-	Aim int
+	Depth      int
+	Aim        int
 }
 
 func (p Position2) String() string {
@@ -84,16 +91,19 @@ func (p Position2) String() string {
 
 func (p *Position2) Follow(com Command) {
 	switch com.Dir {
-	case FORWARD: {
-		p.Horizontal +=com.Amount
-		p.Depth += p.Aim * com.Amount
-	}
-	case DOWN: p.Aim += com.Amount
-	case UP: p.Aim -= com.Amount
-	default: panic("position 2 followed a command with an unknown direction: " + com.Dir)
+	case FORWARD:
+		{
+			p.Horizontal += com.Amount
+			p.Depth += p.Aim * com.Amount
+		}
+	case DOWN:
+		p.Aim += com.Amount
+	case UP:
+		p.Aim -= com.Amount
+	default:
+		panic("position 2 followed a command with an unknown direction: " + com.Dir)
 	}
 }
-
 
 func Solution2() {
 	commands := getCommands()
@@ -104,7 +114,7 @@ func Solution2() {
 	}
 
 	fmt.Println("What do you get if you multiply your final horizontal position by your final depth?")
-	fmt.Printf("Final position is: %s  answer is: %d\n", pos, pos.Horizontal * pos.Depth)
+	fmt.Printf("Final position is: %s  answer is: %d\n", pos, pos.Horizontal*pos.Depth)
 }
 
 func getCommands() []Command {
