@@ -105,6 +105,28 @@ func Solution1() {
 	fmt.Printf("%d\n", atLeast2LinesCount)
 }
 
+func Solution2() {
+	lines := getLines()
+
+	floor := Floor{}
+	for _, line := range lines {
+		allCoords := line.getAllCoords()
+		for _, coord := range allCoords {
+			floor[coord] += 1
+		}
+	}
+
+	atLeast2LinesCount := 0
+	for _, count := range floor {
+		if count >= 2 {
+			atLeast2LinesCount += 1
+		}
+	}
+
+	fmt.Println("At how many points do at least two lines overlap?")
+	fmt.Printf("%d\n", atLeast2LinesCount)
+}
+
 func getLines() []Line{
 	inputLines := strings.Split(input, "\n")
 
